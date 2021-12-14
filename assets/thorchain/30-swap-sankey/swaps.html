@@ -10,6 +10,7 @@
         var jsonData = $.ajax({
           url: "./data.json",
           dataType: "json",
+          cache:false,
           async: false
           }).responseText;
         alert(jsonData);
