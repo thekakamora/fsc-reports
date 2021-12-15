@@ -1,81 +1,94 @@
 <html>
-  <head>
+
+<head>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <link rel="stylesheet" href="css/pico.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+
     <script type="text/javascript">
-      google.charts.load('current', {'packages':['sankey']});
-      google.charts.setOnLoadCallback(drawChart);
+        google.charts.load('current', { 'packages': ['sankey'] });
+        google.charts.setOnLoadCallback(drawChart);
 
-      function drawChart() {
-        var jsonData = $.ajax({
-          //url: "https://raw.githubusercontent.com/thekakamora/fsc-reports/main/assets/thorchain/30-swap-sankey/data.json",
-          url: "https://api.flipsidecrypto.com/api/v2/queries/a07549a1-bb7b-4389-a17c-3f6deda84c51/data/latest",
-          dataType: "json",
-          cache:false,
-          async: false
-          }).responseText;
-        // alert(jsonData);
-        
-        let ethData = JSON.parse(JSON.parse(jsonData)[0].ETH)[0];                        
-        let bnbData = JSON.parse(JSON.parse(jsonData)[0].BNB)[0];   
-        let btcData = JSON.parse(JSON.parse(jsonData)[0].BTC)[0]; 
-        let ltcData = JSON.parse(JSON.parse(jsonData)[0].LTC)[0]; 
-        let bchData = JSON.parse(JSON.parse(jsonData)[0].BCH)[0]; 
-        
-        draw('sankey_basic_eth', ethData);
-        draw('sankey_basic_bnb', bnbData);
-        draw('sankey_basic_btc', bnbData);
-        draw('sankey_basic_ltc', ltcData);
-        draw('sankey_basic_bch', bchData);
+        function drawChart() {
+            var jsonData = $.ajax({
+                //url: "https://raw.githubusercontent.com/thekakamora/fsc-reports/main/assets/thorchain/30-swap-sankey/data.json",
+                url: "https://api.flipsidecrypto.com/api/v2/queries/a07549a1-bb7b-4389-a17c-3f6deda84c51/data/latest",
+                dataType: "json",
+                cache: false,
+                async: false
+            }).responseText;
+            // alert(jsonData);
 
-        
-      }
-      function draw(chart_id, parsedData){
-        // Sets chart options.
-        var options = {
-          //width: 800,
-          sankey: {
-                node: {
-                    colors: colors
-                },
-                link: {
-                    colorMode: 'gradient',
-                    colors: colors
+            let ethData = JSON.parse(JSON.parse(jsonData)[0].ETH)[0];
+            let bnbData = JSON.parse(JSON.parse(jsonData)[0].BNB)[0];
+            let btcData = JSON.parse(JSON.parse(jsonData)[0].BTC)[0];
+            let ltcData = JSON.parse(JSON.parse(jsonData)[0].LTC)[0];
+            let bchData = JSON.parse(JSON.parse(jsonData)[0].BCH)[0];
+
+            draw('sankey_basic_eth', ethData);
+            draw('sankey_basic_bnb', bnbData);
+            draw('sankey_basic_btc', bnbData);
+            draw('sankey_basic_ltc', ltcData);
+            draw('sankey_basic_bch', bchData);
+
+
+        }
+        function draw(chart_id, parsedData) {
+            // Sets chart options.
+            var options = {
+                //width: 800,
+                sankey: {
+                    node: {
+                        colors: colors
+                    },
+                    link: {
+                        colorMode: 'gradient',
+                        colors: colors
+                    }
                 }
-            }
-        
-        };
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'From');
-        data.addColumn('string', 'To');
-        data.addColumn('number', 'Volume');        
-        data.addRows(parsedData);
-                
-        var colors = ['#a6cee3', '#b2df8a', '#fb9a99', '#fdbf6f',
-                  '#cab2d6', '#ffff99', '#1f78b4', '#33a02c'];
+
+            };
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'From');
+            data.addColumn('string', 'To');
+            data.addColumn('number', 'Volume');
+            data.addRows(parsedData);
+
+            var colors = ['#a6cee3', '#b2df8a', '#fb9a99', '#fdbf6f',
+                '#cab2d6', '#ffff99', '#1f78b4', '#33a02c'];
             // Instantiates and draws our chart, passing in some options.
-        var chart = new google.visualization.Sankey(document.getElementById(chart_id));
-        chart.draw(data, options);
-      }
+            var chart = new google.visualization.Sankey(document.getElementById(chart_id));
+            chart.draw(data, options);
+        }
     </script>
-  </head>
-  <body>
+</head>
+
+<body>
     <main class="container">
-    <h2>THORSwaps Initiated By Ethereum Blockchain Users</h2>
-    <div id="sankey_basic_eth" style="width: 100%; height: 800px"></div>
-    <hr></hr>
-    <h2>THORSwaps Initiated By Binance Chain Users</h2>
-    <div id="sankey_basic_bnb" style="width: 100%; height: 800px"></div>
-    <hr></hr>
-    <h2>THORSwaps Initiated By Bitcoin Blockchain Users</h2>
-    <div id="sankey_basic_btc" style="width: 100%; height: 800px"></div>
-    <hr></hr>
-    <h2>THORSwaps Initiated By Litecoin Blockchain Users</h2>
-    <div id="sankey_basic_ltc" style="width: 100%; height: 800px"></div>
-    <hr></hr>
-    <h2>THORSwaps Initiated By Bitcoin Cash Blockchain Users</h2>
-    <div id="sankey_basic_bch" style="width: 100%; height: 800px"></div>
-   </main>
-  </body>
+        <article>
+            <header>THORSwaps Initiated By Ethereum Blockchain Users</header>
+            <div id="sankey_basic_eth" style="width: 100%; height: 800px"></div>
+        </article>
+
+        <article>
+            <header>THORSwaps Initiated By Binance Chain Users</header>
+            <div id="sankey_basic_bnb" style="width: 100%; height: 800px"></div>
+
+        </article>
+        <article>
+            <header>THORSwaps Initiated By Bitcoin Blockchain Users</header>
+            <div id="sankey_basic_btc" style="width: 100%; height: 800px"></div>
+        </article>
+
+        <article>
+            <header>THORSwaps Initiated By Litecoin Blockchain Users</header>
+            <div id="sankey_basic_ltc" style="width: 100%; height: 800px"></div>
+        </article>
+        <article>
+            <header>THORSwaps Initiated By Bitcoin Cash Blockchain Users</header>
+            <div id="sankey_basic_bch" style="width: 100%; height: 800px"></div>
+        </article>
+    </main>
+</body>
+
 </html>
