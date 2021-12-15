@@ -2,16 +2,7 @@
   <head>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script type="text/javascript">
-window.onload = function() {
-    if (parent) {
-        var oHead = document.getElementsByTagName("head")[0];
-        var arrStyleSheets = parent.document.getElementsByTagName("style");
-        for (var i = 0; i < arrStyleSheets.length; i++)
-            oHead.appendChild(arrStyleSheets[i].cloneNode(true));
-    }
-}
-</script>
+    <link rel="stylesheet" href="css/pico.min.css">
     <script type="text/javascript">
       google.charts.load('current', {'packages':['sankey']});
       google.charts.setOnLoadCallback(drawChart);
