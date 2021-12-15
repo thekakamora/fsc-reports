@@ -1,37 +1,78 @@
 <html>
   <head>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript">
       google.charts.load('current', {'packages':['sankey']});
       google.charts.setOnLoadCallback(drawChart);
 
       function drawChart() {
         var jsonData = $.ajax({
-          url: "./data.json",
+          //url: "https://raw.githubusercontent.com/thekakamora/fsc-reports/main/assets/thorchain/30-swap-sankey/data.json",
+          url: "https://api.flipsidecrypto.com/api/v2/queries/a07549a1-bb7b-4389-a17c-3f6deda84c51/data/latest",
           dataType: "json",
           cache:false,
           async: false
           }).responseText;
-        alert(jsonData);
+        // alert(jsonData);
+        
+        let ethData = JSON.parse(JSON.parse(jsonData)[0].ETH)[0];                        
+        let bnbData = JSON.parse(JSON.parse(jsonData)[0].BNB)[0];   
+        let btcData = JSON.parse(JSON.parse(jsonData)[0].BTC)[0]; 
+        let ltcData = JSON.parse(JSON.parse(jsonData)[0].LTC)[0]; 
+        let bchData = JSON.parse(JSON.parse(jsonData)[0].BCH)[0]; 
+        
+        draw('sankey_basic_eth', ethData);
+        draw('sankey_basic_bnb', bnbData);
+        draw('sankey_basic_btc', bnbData);
+        draw('sankey_basic_ltc', ltcData);
+        draw('sankey_basic_bch', bchData);
+
+        
+      }
+      function draw(chart_id, parsedData){
+        // Sets chart options.
+        var options = {
+          //width: 800,
+          sankey: {
+                node: {
+                    colors: colors
+                },
+                link: {
+                    colorMode: 'gradient',
+                    colors: colors
+                }
+            }
+        
+        };
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'From');
         data.addColumn('string', 'To');
-        data.addColumn('number', 'Weight');
-        data.addRows(JSON.parse(jsonData));
-
-        // Sets chart options.
-        var options = {
-          width: 600,
-        };
-
-        // Instantiates and draws our chart, passing in some options.
-        var chart = new google.visualization.Sankey(document.getElementById('sankey_basic'));
+        data.addColumn('number', 'Volume');        
+        data.addRows(parsedData);
+                
+        var colors = ['#a6cee3', '#b2df8a', '#fb9a99', '#fdbf6f',
+                  '#cab2d6', '#ffff99', '#1f78b4', '#33a02c'];
+            // Instantiates and draws our chart, passing in some options.
+        var chart = new google.visualization.Sankey(document.getElementById(chart_id));
         chart.draw(data, options);
       }
     </script>
   </head>
   <body>
-    <div id="sankey_basic" style="width: 900px; height: 300px;"></div>
+    <h2>Ethereum Blockchain User Swaps</h2>
+    <div id="sankey_basic_eth" style="width: 100%; height: 800px"></div>
+    
+    <h2>Ethereum Blockchain User Swaps</h2>
+    <div id="sankey_basic_bnb" style="width: 100%; height: 800px"></div>
+    
+    <h2>Bitcoin Blockchain User Swaps</h2>
+    <div id="sankey_basic_btc" style="width: 100%; height: 800px"></div>
+
+    <h2>Litecoin Blockchain User Swaps</h2>
+    <div id="sankey_basic_ltc" style="width: 100%; height: 800px"></div>
+
+    <h2>Bitcoin Cash Blockchain User Swaps</h2>
+    <div id="sankey_basic_bch" style="width: 100%; height: 800px"></div>
   </body>
 </html>
